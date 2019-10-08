@@ -12,9 +12,9 @@ import { getAllTravelers, getTraveler } from '../common/store/travelers/traveler
 import { Room } from '../common/models/room';
 import { GetAllRooms, GetRoom, AddRoom, UpdateRoom, RemoveRoom } from '../common/store/rooms/rooms.actions';
 import { getAllRooms, getRoom } from '../common/store/rooms/rooms.reducers';
-import { Hotel } from '../common/models/Hotel';
 import { GetAllHotels, GetHotel, AddHotel, UpdateHotel, RemoveHotel } from '../common/store/hotel/hotels.actions';
 import { getAllHotels, getHotel } from '../common/store/hotel/hotels.reducers';
+import { Hotel } from '../common/models/hotel';
 
 @Injectable({
   providedIn: 'root'
