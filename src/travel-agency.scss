@@ -1,0 +1,137 @@
+@import '~@angular/material/theming';
+@import './app/common/components/navtabs/navtabs.component.scss';
+
+@include mat-core();
+
+$accent: (
+    50 : #f5f5f5,
+    100 : #e6e6e6,
+    200 : #d6d6d6,
+    300 : #c6c6c6,
+    400 : #b9b9b9,
+    500 : #adadad,
+    600 : #a6a6a6,
+    700 : #9c9c9c,
+    800 : #939393,
+    900 : #838383,
+    A100 : #ffffff,
+    A200 : #fce3e3,
+    A400 : #ffadad,
+    A700 : #ff9494,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #000000,
+        600 : #000000,
+        700 : #000000,
+        800 : #000000,
+        900 : #000000,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+$primary: (
+    50 : #e1eaf0,
+    100 : #b4cbd8,
+    200 : #83a9bf,
+    300 : #5186a5,
+    400 : #2b6c91,
+    500 : #06527e,
+    600 : #054b76,
+    700 : #04416b,
+    800 : #033861,
+    900 : #02284e,
+    A100 : #81b6ff,
+    A200 : #4e98ff,
+    A400 : #1b7bff,
+    A700 : #026cff,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #ffffff,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #ffffff,
+        A700 : #ffffff,
+    )
+);
+
+$warn: (
+    50 : #fee6f3,
+    100 : #fdc1e1,
+    200 : #fc98cd,
+    300 : #fb6fb9,
+    400 : #fa50aa,
+    500 : #f9319b,
+    600 : #f82c93,
+    700 : #f72589,
+    800 : #f61f7f,
+    900 : #f5136d,
+    A100 : #ffffff,
+    A200 : #fff0f5,
+    A400 : #ffbdd5,
+    A700 : #ffa3c5,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+
+$travel-agency-primary: mat-palette($primary, 500);
+$travel-agency-accent:  mat-palette($accent, 50);
+$travel-agency-warn:    mat-palette($warn, 500);
+
+$travel-agency-theme: mat-light-theme($travel-agency-primary, $travel-agency-accent, $travel-agency-warn);
+
+@include angular-material-theme($travel-agency-theme);
+@include  navtabs-component-theme($travel-agency-theme);
+
+$travel-agency-typography: mat-typography-config(
+  $font-family:   'Rubik, sans-serif',
+  $display-4:     mat-typography-level(112px, 112px, 300, $letter-spacing: -0.05em),
+  $display-3:     mat-typography-level(56px, 56px, 400, $letter-spacing: -0.02em),
+  $display-2:     mat-typography-level(45px, 48px, 400, $letter-spacing: -0.005em),
+  $display-1:     mat-typography-level(34px, 40px, 400),
+  $headline:      mat-typography-level(97.54px, 0px, 400),
+  $title:         mat-typography-level(61px, 0px, 500),
+  $subheading-2:  mat-typography-level(48.77px, 0.25px, 400),
+  $subheading-1:  mat-typography-level(34.14px, 0.25px, 400),
+  $body-2:        mat-typography-level(14px, 0.25px, 500),
+  $body-1:        mat-typography-level(16.26px, 0.5px, 400),
+  $caption:       mat-typography-level(12px, 20px, 400),
+  $button:        mat-typography-level(14px, 1.25px, 500),
+  // Line-height must be unit-less fraction of the font-size.
+  $input:         mat-typography-level(inherit, 1.125, 400)
+);
+
+
+@include mat-base-typography($travel-agency-typography);
+@include mat-checkbox-typography($travel-agency-typography);
+@include angular-material-typography($travel-agency-typography);
+@include mat-core($travel-agency-typography);

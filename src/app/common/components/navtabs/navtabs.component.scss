@@ -1,0 +1,15 @@
+@import '~@angular/material/theming';
+
+.toolbar-flex {
+    flex: 1 0.5 auto
+}
+
+@mixin navtabs-component-theme($travel-agency-theme) {
+
+    $primary: map-get($travel-agency-theme, primary);
+    $accent: map-get($travel-agency-theme, accent);
+
+    .navtabs-container {
+        background-color: mat-color($travel-agency-accent);
+    }
+}
