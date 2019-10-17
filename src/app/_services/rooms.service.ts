@@ -30,7 +30,7 @@ export class RoomsService {
     let headers = new HttpHeaders();
     headers = headers.set('Content-Type', 'application/json; charset=utf-8');
 
-    return this.http.put<Room>(this.URL + '/' + room.Id, room, {headers: headers});
+    return this.http.put<Room>(this.URL + '/' + room.id, room, {headers: headers});
   }
 
   public delete(id): Observable<Room> {

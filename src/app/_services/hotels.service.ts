@@ -30,7 +30,7 @@ export class HotelsService {
     let headers = new HttpHeaders();
     headers = headers.set('Content-Type', 'application/json; charset=utf-8');
 
-    return this.http.put<Hotel>(this.URL + '/' + hotel.Id, hotel, {headers: headers});
+    return this.http.put<Hotel>(this.URL + '/' + hotel.id, hotel, {headers: headers});
   }
 
   public delete(id): Observable<Hotel> {

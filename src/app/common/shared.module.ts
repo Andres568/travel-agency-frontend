@@ -7,11 +7,11 @@ import { StoreModule, Store } from '@ngrx/store';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HeaderComponent } from './components/header/header.component';
 import { NavtabsComponent } from './components/navtabs/navtabs.component';
-import { SidenavListComponent } from './components/sidenav-list/sidenav-list.component';
 import { MaterialModule } from './material.module';
 import { ReducersStoreModule } from './store/app.reducers';
 import { EffectsStoreModule } from './store/app.effects';
-
+import { FooterComponent } from './components/footer/footer.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   imports: [
@@ -25,18 +25,19 @@ import { EffectsStoreModule } from './store/app.effects';
     ReactiveFormsModule,
     ReducersStoreModule,
     EffectsStoreModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    FontAwesomeModule
   ],
   declarations: [
     HeaderComponent,
     NavtabsComponent,
-    SidenavListComponent
+    FooterComponent,
   ],
   providers: [Store],
   exports: [
     HeaderComponent,
     NavtabsComponent,
-    SidenavListComponent, 
+    FooterComponent,
 
     CommonModule,
     MaterialModule,
@@ -48,7 +49,8 @@ import { EffectsStoreModule } from './store/app.effects';
     ReactiveFormsModule,
     
     StoreModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    FontAwesomeModule
 
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

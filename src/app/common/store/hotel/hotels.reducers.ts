@@ -7,16 +7,16 @@ import { AppAction } from '../app.actions';
 
 export interface State{
     data: Hotel[];
-    selected: Hotel;
     action: string;
+    selected: Hotel;
     done: boolean;
     error?: Error;
 }
 
 export const initialState: State = {
-    data: null,
-    selected: null,
+    data: [],
     action: null,
+    selected: null,
     done: false,
     error: null
   };
@@ -31,23 +31,19 @@ export function hotelReducer(state = initialState, action: AppAction): State {
         ...state,
         action: hotelsActions.GET_HOTELS,
         done: false,
-        selected: null,
         error: null
       };
     case hotelsActions.GET_HOTELS_SUCCESS:
-      
       return {
         ...state,
         data: action.payload,
         done: true,
-        selected: null,
         error: null
       };
     case hotelsActions.GET_HOTELS_ERROR:
       return {
         ...state,
         done: true,
-        selected: null,
         error: action.payload
       };
 
@@ -78,7 +74,7 @@ export function hotelReducer(state = initialState, action: AppAction): State {
       };
 
         /*************************
-       * CREATE create actions
+       * CREATE hotel actions
        ************************/
       case hotelsActions.CREATE_HOTEL:
       return {
@@ -90,18 +86,13 @@ export function hotelReducer(state = initialState, action: AppAction): State {
       };
       case hotelsActions.CREATE_HOTEL_SUCCESS:
         {
-          const newHotel = {
-            ...state.selected,
-            // Id: action.payload
-          };
           const data = [
             ...state.data,
-            newHotel
+            action.payload
           ];
           return {
             ...state,
             data,
-            selected: null,
             error: null,
             done: true
           };
@@ -115,12 +106,11 @@ export function hotelReducer(state = initialState, action: AppAction): State {
         };
         
         /*************************
-       * UPDATE game actions
+       * UPDATE hotel actions
        ************************/
       case hotelsActions.UPDATE_HOTEL:
       return {
         ...state,
-        selected: action.payload,
         action: hotelsActions.UPDATE_HOTEL,
         done: false,
         error: null
@@ -129,18 +119,17 @@ export function hotelReducer(state = initialState, action: AppAction): State {
       {
         const index = state
           .data
-          .findIndex(c => c.Id === state.selected.Id);
+          .findIndex(c => c.id === action.payload.id);
         if (index >= 0) {
           const data = [
             ...state.data.slice(0, index),
-            state.selected,
+            action.payload,
             ...state.data.slice(index + 1)
           ];
           return {
             ...state,
             data,
             done: true,
-            selected: null,
             error: null
           };
         }
@@ -159,7 +148,7 @@ export function hotelReducer(state = initialState, action: AppAction): State {
      ************************/
     case hotelsActions.DELETE_HOTEL:
       {
-        const selected = state.data.find(h => h.Id === action.payload);
+        const selected = state.data.find(h => h.id === action.payload);
         return {
           ...state,
           selected,
@@ -170,11 +159,10 @@ export function hotelReducer(state = initialState, action: AppAction): State {
       }
     case hotelsActions.DELETE_HOTEL_SUCCESS:
       {
-        const data = state.data.filter(h => h.Id !== state.selected.Id);
+        const data = state.data.filter(h => h.id !== action.payload.id);
         return {
           ...state,
           data,
-          selected: null,
           error: null,
           done: true
         };
@@ -182,7 +170,6 @@ export function hotelReducer(state = initialState, action: AppAction): State {
     case hotelsActions.DELETE_HOTEL_ERROR:
       return {
         ...state,
-        selected: null,
         done: true,
         error: action.payload
       };

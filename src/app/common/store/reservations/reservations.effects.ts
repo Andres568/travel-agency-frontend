@@ -12,19 +12,22 @@ import {
     RemoveReservation, RemoveReservationSuccess, RemoveReservationError
 } from './reservations.actions';
 
-import { switchMap, map, catchError, tap } from 'rxjs/operators';
+import { switchMap, map, catchError, tap, concatMap } from 'rxjs/operators';
 
 import { Reservation} from '../../models/reservation';
 import { Observable } from 'rxjs/internal/Observable';
 import { ReservationsService } from 'src/app/_services/reservations.service';
 import { AppState } from '../app.state';
+import { Guest } from '../../models/guest';
+import { AddGuest, RemoveGuest } from '../guests/guests.actions';
+import { StoreService } from 'src/app/_services/store.service';
 
 
 @Injectable()
 export class ReservationEffects {
   constructor(private actions$: Actions,
               private svc: ReservationsService,
-              private store: Store<AppState>) {
+              private storeService: StoreService) {
   }
 
     @Effect()
@@ -41,8 +44,18 @@ export class ReservationEffects {
     .pipe(
         ofType(reservationActions.CREATE_RESERVATION),
         map((action: AddReservation) => action.payload),
-        switchMap(newReservation => this.svc.insert(newReservation)),
-        map((newReservation) => new AddReservationSuccess()),
+        switchMap(newReservation => this.svc.insert(newReservation), 
+                    (newReservation, insertedReservation) => [newReservation, insertedReservation]),
+        concatMap(([newReservation, insertedReservation]: [Reservation, Reservation]) => {
+            const newGuests: AddGuest[] = [];
+            if (newReservation.guests) {
+                newReservation.guests.forEach(guest => {
+                    guest.reservationId = insertedReservation.id;
+                    newGuests.push(new AddGuest(guest));
+                });
+            }
+            return [new AddReservationSuccess(insertedReservation), ...newGuests];
+        }),
         catchError((err) => [new AddReservationError(err)])
     );
 
@@ -51,8 +64,12 @@ export class ReservationEffects {
     .pipe(
         ofType(reservationActions.UPDATE_RESERVATION),
         map((action: UpdateReservation) => action.payload),
-        switchMap(reservation => this.svc.update(reservation)),
-        map(() => new UpdateReservationSuccess()),
+        map((reservation: Reservation) => {
+            reservation.guests = undefined;
+            return reservation;
+        }),
+        switchMap(reservation => this.svc.update(reservation), (reservation) => reservation),
+        map((reservation: Reservation) => new UpdateReservationSuccess(reservation)),
         catchError((err) => [new UpdateReservationError(err)])
     );
 
@@ -62,7 +79,14 @@ export class ReservationEffects {
         ofType(reservationActions.GET_RESERVATION),
         map((action: GetReservation) => action.payload),
         switchMap(id => this.svc.findById(id)),
-        map(reservation => new GetReservationSuccess(reservation)),
+        switchMap(() => this.storeService.getAllGuests(),
+        (reservation, guests) => [reservation, guests]),
+        map(([reservation, guests]: [Reservation, Guest[]])  => {
+            let reservationGuests: Guest[] = [];
+            reservationGuests = guests.filter(guest => guest.reservationId === reservation.id);
+            reservation.guests = reservationGuests;
+            return new GetReservationSuccess(reservation);
+        }),
         catchError((err) => [new GetReservationError(err)]),       
     );
       
@@ -72,9 +96,22 @@ export class ReservationEffects {
         ofType(reservationActions.DELETE_RESERVATION),
         map((action: RemoveReservation) => action.payload),
         switchMap(id => this.svc.delete(id)),
-        map((hero: Reservation) => new RemoveReservationSuccess(hero)),
+        switchMap(() => this.storeService.getAllGuests(),
+        (reservation, guests) => [reservation, guests]),
+        concatMap(([reservation, guests]: [Reservation, Guest[]])  => {
+            let reservationGuests: Guest[] = [];
+            const deletedGuests: RemoveGuest[] = [];
+
+            reservationGuests = guests.filter(guest => guest.reservationId === reservation.id);
+
+            if (reservationGuests) {
+                reservationGuests.forEach(guest => {
+                    deletedGuests.push(new RemoveGuest(guest.id));
+                });
+            }
+            return [new RemoveReservationSuccess(reservation), ...deletedGuests];
+        }),
         catchError((err) => [new RemoveReservationError(err)])
     );
-    
 
 }

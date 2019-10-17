@@ -1,12 +1,14 @@
+import { Room } from './room';
+
 export class Hotel {
-    Id?: number;
-    IsEnable: boolean;
-    Address: string;
-    Name: string;
-    City: string;
-    ImageUrl: string;
+    id?: number;
+    isEnable: string;
+    name: string;
+    city: string;
+    imageUrl: string;
+    rooms?: Room[];
 
     constructor(){
-       this.Id = undefined;
+       this.id = undefined;
     }
 }

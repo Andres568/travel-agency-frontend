@@ -80,7 +80,7 @@ export class AddHotel implements Action {
 export class AddHotelSuccess implements Action {
   readonly type = CREATE_HOTEL_SUCCESS;
 
-  constructor(public payload?: number) { }
+  constructor(public payload: Hotel) { }
 }
 
 export class AddHotelError implements Action {
@@ -101,6 +101,9 @@ export class UpdateHotel implements Action {
 
 export class UpdateHotelSuccess implements Action {
   readonly type = UPDATE_HOTEL_SUCCESS;
+
+  constructor(public payload: Hotel) {
+  }
 }
 
 export class UpdateHotelError implements Action {

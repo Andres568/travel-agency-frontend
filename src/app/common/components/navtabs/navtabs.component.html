@@ -1,34 +1,38 @@
 <div class="navtabs-container">
-    <nav mat-tab-nav-bar fxFlex fxLayout="column" fxLayoutAlign="center center">
-        <a mat-tab-link routerLink="/"
+    <nav mat-tab-nav-bar fxFlex fxLayout="row" fxLayoutAlign="center center" >
+        <a mat-tab-link routerLink="/home"
         routerLinkActive #home="routerLinkActive"
         [active]="home.isActive">
         Home
         </a>
-        <a mat-tab-link routerLink="/accomodation"
-        routerLinkActive #accomodation="routerLinkActive"
-        [active]="accomodation.isActive">
+        <a mat-tab-link routerLink="/hotels"
+        routerLinkActive #hotels="routerLinkActive"
+        [active]="hotels.isActive">
         Hotels
         </a>
-        <a mat-tab-link routerLink="/food-and-beverage"
-        routerLinkActive #foodandbeverage="routerLinkActive"
-        [active]="foodandbeverage.isActive">
+        <a mat-tab-link routerLink="/hotel-manager"
+        routerLinkActive #hotelmanager="routerLinkActive"
+        [active]="hotelmanager.isActive"
+        *ngIf="authService.hasRole('TravelAgent')">
         Hotel Manager
         </a>
-        <a mat-tab-link routerLink="/lifestyle"
-        routerLinkActive #lifestyle="routerLinkActive"
-        [active]="lifestyle.isActive">
+        <a mat-tab-link routerLink="/reservations"
+        routerLinkActive #reservations="routerLinkActive"
+        [active]="reservations.isActive"
+        *ngIf="authService.hasRole('Traveler') || authService.hasRole('TravelAgent')">
         Reservations
         </a>
-        <a mat-tab-link routerLink="/celebrations"
-        routerLinkActive #celebrations="routerLinkActive"
-        [active]="celebrations.isActive">
-        Travelers
+        <a mat-tab-link routerLink="/reservation-manager"
+        routerLinkActive #reservationmanager="routerLinkActive"
+        [active]="reservationmanager.isActive"
+        *ngIf="authService.hasRole('TravelAgent')">
+        Reservation Manager
         </a>
-        <a mat-tab-link routerLink="/offers"
-        routerLinkActive #offers="routerLinkActive"
-        [active]="offers.isActive">
-        Offers
+        <a mat-tab-link routerLink="/user-manager"
+        routerLinkActive #usermanager="routerLinkActive"
+        [active]="usermanager.isActive"
+        *ngIf="authService.hasRole('TravelAgent')">
+        User Manager
         </a>
     </nav>               
 </div>

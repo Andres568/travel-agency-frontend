@@ -17,7 +17,11 @@ import {
         MatTableModule,
         MatSortModule,
         MatExpansionModule,
-        MatFormFieldModule
+        MatFormFieldModule,
+        MatCardModule,
+        MatGridListModule,
+        MatDividerModule,
+        MatChipsModule
 } from '@angular/material';
 import { A11yModule } from '@angular/cdk/a11y';
 
@@ -45,7 +49,12 @@ import { A11yModule } from '@angular/cdk/a11y';
         MatTableModule,
         MatSortModule,
         MatExpansionModule,
-        A11yModule
+        A11yModule,
+        MatCardModule,
+        MatGridListModule,
+        MatDividerModule,
+        MatChipsModule
+
         ],
     exports: [
         BrowserAnimationsModule,
@@ -68,7 +77,11 @@ import { A11yModule } from '@angular/cdk/a11y';
         MatTableModule,
         MatSortModule,
         MatExpansionModule,
-        A11yModule
+        A11yModule,
+        MatCardModule,
+        MatGridListModule,
+        MatDividerModule,
+        MatChipsModule
         ],
 })
 

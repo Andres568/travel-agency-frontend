@@ -1,0 +1,41 @@
+// Import Material Mixins
+@import '~@angular/material/theming';
+// Define a custom mixin that takes in the current theme
+
+@mixin hotel-manager-component-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+  $config: mat-typography-config();
+
+  .hotel-manager-container{
+    height: 100vh;
+    background-color: mat-color($primary);
+    border-color: mat-color($accent);
+    color: mat-color($warn);
+    text-align: center;  
+    font-family: mat-font-family($config); 
+    padding: 2em;
+    
+    h1{
+      margin: 0%;
+    }
+
+    table {
+      width: 100%;
+      text-align: left;
+      @include mat-elevation(18, mat-color($warn), 1);
+      background-color: mat-color($accent, lighter);
+    }
+
+    mat-form-field {
+      margin-top: 1em;
+      width: 100%;
+      background-color: mat-color($accent);
+    }
+  }
+
+}
+
+
+

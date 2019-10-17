@@ -1,0 +1,22 @@
+.sign-in-container{
+    text-align: center;
+    margin: auto;
+    background-color: #dddddd;
+    padding-bottom: 2em;
+}
+   
+.sign-in-container form  mat-form-field{
+    display: list-item;
+    list-style-type: none;
+    margin: auto;
+    text-align: left;
+    width: 400px;
+    margin: auto;
+    margin-bottom: 2em;
+
+}
+
+.sign-in-container button{
+    margin-left: 2em;
+    margin-right: 2em;
+}

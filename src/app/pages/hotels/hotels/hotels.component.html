@@ -1,0 +1,75 @@
+<div class="hotels-container">
+    <form [formGroup]="form" (submit)="onSearch(form.value)">
+        <mat-toolbar color="primary">
+            <div style="margin: 1em;">
+                <div fxLayout="row" fxLayoutAlign="center center">
+                    <mat-form-field>
+                        <input matInput name="arrivalDate" formControlName="arrivalDate" [matDatepicker]="arrivalDate"
+                            placeholder="Arrival date" />
+                        <mat-error *ngIf="form.controls['arrivalDate'].errors?.required">
+                            Please enter a valid date <br>
+                            Arrival date is <strong>required</strong>
+                        </mat-error>
+                        <mat-datepicker-toggle matSuffix [for]="arrivalDate"></mat-datepicker-toggle>
+                        <mat-datepicker #arrivalDate></mat-datepicker>
+                        <button mat-button *ngIf="form.value.arrivalDate" matSuffix mat-icon-button aria-label="Clear"
+                            (click)="form.controls['arrivalDate'].setValue('')">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input matInput name="departureDate" formControlName="departureDate"
+                            [matDatepicker]="departureDate" placeholder="Departure date" />
+                        <mat-error *ngIf="form.controls['departureDate'].errors?.required">
+                            Please enter a valid date <br>
+                            Departure date is <strong>required</strong>
+                        </mat-error>
+                        <mat-datepicker-toggle matSuffix [for]="departureDate"></mat-datepicker-toggle>
+                        <mat-datepicker #departureDate></mat-datepicker>
+                        <button mat-button *ngIf="form.value.departureDate" matSuffix mat-icon-button aria-label="Clear"
+                            (click)="form.controls['departureDate'].setValue('')">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </mat-form-field>
+                    <mat-form-field>
+                            <input matInput name="city" formControlName="city" placeholder="City" type="text" />
+                            <mat-error *ngIf="form.controls['city'].errors?.required">
+                                City is <strong>required</strong>
+                            </mat-error>
+                            <button mat-button *ngIf="form.value.city" matSuffix mat-icon-button aria-label="Clear"
+                                (click)="form.controls['city'].setValue('')">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                        </mat-form-field>
+                        <mat-form-field>
+                                <input matInput name="peopleCapacity" formControlName="peopleCapacity" placeholder="People Capacity" type="number" />
+                                <mat-error *ngIf="form.controls['peopleCapacity'].errors?.required">
+                                    People Capacity is <strong>required</strong>
+                                </mat-error>
+                                <button mat-button *ngIf="form.value.peopleCapacity" matSuffix mat-icon-button aria-label="Clear"
+                                    (click)="form.controls['peopleCapacity'].setValue('')">
+                                    <mat-icon>close</mat-icon>
+                                </button>
+                            </mat-form-field>
+                    <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Search</button>
+                </div>
+            </div>
+            
+        </mat-toolbar>
+    </form>
+
+
+    <mat-grid-list cols="3" rowHeight="1:1" gutterSize="2em" style="margin: 3em;">
+        <mat-grid-tile style="border-radius: 25px;" *ngFor="let hotel of listedHotels">
+            <button type="button" class="hotel-tile-container" style="outline: 0; background-size: cover;"
+                (click)="onHotel(hotel)" *ngIf="hotel.imageUrl" [style.background-image]="'url(' + hotel.imageUrl + ')'"
+                [routerLink]="['/hotel', hotel.id]">
+                <div class="bottom-left" style="text-align: left;">
+                    <h2>{{hotel.name}}</h2>
+                    <h3>{{hotel.city}}</h3>
+                </div>
+
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+</div>

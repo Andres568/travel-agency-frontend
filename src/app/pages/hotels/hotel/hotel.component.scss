@@ -1,0 +1,50 @@
+@import '~@angular/material/theming';
+@mixin hotel-component-theme($theme) {
+    $primary: map-get($theme, primary);
+    $accent: map-get($theme, accent);
+    $warn: map-get($theme, warn);
+    $config: mat-typography-config();
+
+    .hotel-container{
+        height: 200vh;
+        background: url(/assets/images/reservations.jpg) repeat-y;
+        padding-top: 3em;
+        font-family: mat-font-family($config); 
+        color: mat-color($primary);
+
+        h1, h2, h3{
+            margin: 1em;
+        }
+
+        .room-card {
+            min-height: 100%;
+            min-width: 100%;
+            max-height: 100%;
+            max-width: 100%;
+            background-color: mat-color($primary);
+            opacity: 0.9;
+        }
+
+        
+        .hotel-header{
+            max-height: 100%;
+            max-width: 100%;
+            background-color: lightsteelblue;
+            opacity: 0.95;
+        }
+
+        img{
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        mat-divider{
+            min-height: 100%;
+        }
+
+        button{
+            margin-left: 2em;
+        }
+ 
+    }
+}

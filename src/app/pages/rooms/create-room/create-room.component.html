@@ -1,0 +1,109 @@
+<div class="create-room-container">
+    <mat-dialog-content>
+        <h1 mat-dialog-title class="mat-subheading-2">{{title}}</h1>
+        <form [formGroup]="form" (submit)="onSaveRoom(form.value)">
+            <mat-form-field>
+                <label for="name">Name</label>
+                <input matInput name="name" formControlName="name" type="text" />
+                <mat-error *ngIf="form.controls['name'].errors?.required">
+                    Name is <strong>required</strong>
+                </mat-error>
+                <button mat-button *ngIf="form.value.name" matSuffix mat-icon-button aria-label="Clear"
+                    (click)="form.controls['name'].setValue('')">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </mat-form-field>
+            <mat-form-field>
+                <label for="isAvailable">Is Available</label>
+                <mat-select name="isAvailable" formControlName="isAvailable" [value]="form.value.isAvailable">
+                    <mat-option value="true">true</mat-option>
+                    <mat-option value="false">false</mat-option>
+                </mat-select>
+                <mat-error *ngIf="form.controls['isAvailable'].errors?.required">
+                    Is Available is <strong>required</strong>
+                </mat-error>
+                <button mat-button *ngIf="form.value.isAvailable" matSuffix mat-icon-button aria-label="Clear"
+                    (click)="form.controls['isAvailable'].setValue('')">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </mat-form-field>
+            <mat-form-field>
+                <label for="isEnable">Is Enable</label>
+                <mat-select name="isEnable" formControlName="isEnable" [value]="form.value.isEnable">
+                    <mat-option value="true">true</mat-option>
+                    <mat-option value="false">false</mat-option>
+                </mat-select>
+                <mat-error *ngIf="form.controls['isEnable'].errors?.required">
+                    Is Enable is <strong>required</strong>
+                </mat-error>
+                <button mat-button *ngIf="form.value.isEnable" matSuffix mat-icon-button aria-label="Clear"
+                    (click)="form.controls['isEnable'].setValue('')">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </mat-form-field>
+            <mat-form-field>
+                <label for="baseCost">Base Cost</label>
+                <input matInput name="baseCost" formControlName="baseCost" type="number" />
+                <mat-error *ngIf="form.controls['baseCost'].errors?.required">
+                    Base Cost is <strong>required</strong>
+                </mat-error>
+                <button mat-button *ngIf="form.value.baseCost" matSuffix mat-icon-button aria-label="Clear"
+                    (click)="form.controls['baseCost'].setValue('')">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </mat-form-field>
+            <mat-form-field>
+                <label for="tax">Tax</label>
+                <input matInput name="tax" formControlName="tax" type="number" />
+                <mat-error *ngIf="form.controls['tax'].errors?.required">
+                    Tax is <strong>required</strong>
+                </mat-error>
+                <button mat-button *ngIf="form.value.tax" matSuffix mat-icon-button aria-label="Clear"
+                    (click)="form.controls['tax'].setValue('')">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </mat-form-field>
+            <mat-form-field>
+                <label for="type">Type</label>
+                <input matInput name="type" formControlName="type" type="text" />
+                <mat-error *ngIf="form.controls['type'].errors?.required">
+                    Type is <strong>required</strong>
+                </mat-error>
+                <button mat-button *ngIf="form.value.type" matSuffix mat-icon-button aria-label="Clear"
+                    (click)="form.controls['type'].setValue('')">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </mat-form-field>
+            <mat-form-field>
+                <label for="peopleCapacity">People Capacity</label>
+                <input matInput name="peopleCapacity" formControlName="peopleCapacity" type="number" />
+                <mat-error *ngIf="form.controls['peopleCapacity'].errors?.required">
+                    People Capacity is <strong>required</strong>
+                </mat-error>
+                <button mat-button *ngIf="form.value.peopleCapacity" matSuffix mat-icon-button aria-label="Clear"
+                    (click)="form.controls['peopleCapacity'].setValue('')">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </mat-form-field>
+            <mat-form-field>
+                <label for="imageUrl">Image Url</label>
+                <input matInput name="imageUrl" formControlName="imageUrl" type="url" />
+                <mat-error *ngIf="form.controls['imageUrl'].errors?.required">
+                    Image Url is <strong>required</strong>
+                </mat-error>
+                <button mat-button *ngIf="form.value.imageUrl" matSuffix mat-icon-button aria-label="Clear"
+                    (click)="form.controls['imageUrl'].setValue('')">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </mat-form-field>
+
+
+            <div mat-dialog-actions>
+                <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Save</button>
+            </div>
+        </form>
+        <div mat-dialog-actions>
+            <button mat-button (click)="onDialogBack()">No Thanks</button>
+        </div>
+    </mat-dialog-content>
+</div>

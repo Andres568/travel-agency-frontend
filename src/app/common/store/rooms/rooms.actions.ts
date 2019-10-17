@@ -80,7 +80,7 @@ export class AddRoom implements Action {
 export class AddRoomSuccess implements Action {
   readonly type = CREATE_ROOM_SUCCESS;
 
-  constructor(public payload?: number) { }
+  constructor(public payload: Room) { }
 }
 
 export class AddRoomError implements Action {
@@ -101,6 +101,8 @@ export class UpdateRoom implements Action {
 
 export class UpdateRoomSuccess implements Action {
   readonly type = UPDATE_ROOM_SUCCESS;
+
+  constructor(public payload: Room) { }
 }
 
 export class UpdateRoomError implements Action {

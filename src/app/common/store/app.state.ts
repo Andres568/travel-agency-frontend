@@ -12,21 +12,28 @@ import {
   State as RoomState
 } from './rooms/rooms.reducers';
 import {
-  initialState as Traveler,
-  State as TravelerState
-} from './travelers/travelers.reducers';
+  initialState as Guest,
+  State as GuestState
+} from './guests/guests.reducers';
+import {
+  initialState as EmergencyContact,
+  State as EmergencyContactState
+} from './emergencyContacts/emergencyContacts.reducers';
+
 
 export interface AppState {
   reservations: ReservationState;
   hotels: HotelState;
   rooms: RoomState;
-  travelers: TravelerState;
+  guests: GuestState;
+  emergencyContacts: EmergencyContactState;
 }
 
 export const initialState: AppState = {
   reservations: Reservation,
   hotels: Hotel,
   rooms: Room,
-  travelers: Traveler
+  guests: Guest,
+  emergencyContacts: EmergencyContact
 }
 

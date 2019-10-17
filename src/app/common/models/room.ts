@@ -1,16 +1,17 @@
 export class Room {
-    Id?: number;
-    HotelId: number;
-    Name: string;
-    IsAvailable: boolean;
-    IsEnable: boolean;
-    BaseCost: string;
-    Tax: string;
-    Type: string;
-    PeopleCapacity: number;
-    ImageUrl: string;
+    id?: number;
+    hotelId: number;
+    name: string;
+    isAvailable: string;
+    isEnable: string;
+    baseCost: string;
+    tax: string;
+    type: string;
+    peopleCapacity: number;
+    imageUrl: string;
+    address: string;
 
     constructor(){
-       this.Id = undefined;
+       this.id = undefined;
     }
 }

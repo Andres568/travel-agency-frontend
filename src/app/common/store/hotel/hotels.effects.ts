@@ -12,19 +12,22 @@ import {
     RemoveHotel, RemoveHotelSuccess, RemoveHotelError
 } from './hotels.actions';
 
-import { switchMap, map, catchError, tap } from 'rxjs/operators';
+import { switchMap, map, catchError, tap, concatMap } from 'rxjs/operators';
 
 import { Hotel} from '../../models/hotel';
 import { Observable } from 'rxjs/internal/Observable';
 import { HotelsService } from 'src/app/_services/hotels.service';
 import { AppState } from '../app.state';
+import { Room } from '../../models/room';
+import { AddRoom, RemoveRoom } from '../rooms/rooms.actions';
+import { StoreService } from 'src/app/_services/store.service';
 
 
 @Injectable()
 export class HotelEffects {
   constructor(private actions$: Actions,
               private svc: HotelsService,
-              private store: Store<AppState>) {
+              private storeService: StoreService) {
   }
 
     @Effect()
@@ -41,8 +44,18 @@ export class HotelEffects {
     .pipe(
         ofType(hotelActions.CREATE_HOTEL),
         map((action: AddHotel) => action.payload),
-        switchMap(newHotel => this.svc.insert(newHotel)),
-        map((newHotel) => new AddHotelSuccess()),
+        switchMap(newHotel => this.svc.insert(newHotel), 
+                    (newHotel, insertedHotel) => [newHotel, insertedHotel]),
+        concatMap(([newHotel, insertedHotel]: [Hotel, Hotel]) => {
+            const newRooms: AddRoom[] = [];
+            if (newHotel.rooms) {
+                newHotel.rooms.forEach(room => {
+                    room.hotelId = insertedHotel.id;
+                    newRooms.push(new AddRoom(room));
+                });
+            }
+            return [new AddHotelSuccess(insertedHotel), ...newRooms];
+        }),
         catchError((err) => [new AddHotelError(err)])
     );
 
@@ -51,8 +64,12 @@ export class HotelEffects {
     .pipe(
         ofType(hotelActions.UPDATE_HOTEL),
         map((action: UpdateHotel) => action.payload),
-        switchMap(hotel => this.svc.update(hotel)),
-        map(() => new UpdateHotelSuccess()),
+        map((hotel: Hotel) => {
+            hotel.rooms = undefined;
+            return hotel;
+        }),
+        switchMap(hotel => this.svc.update(hotel), (hotel) => hotel),
+        map((hotel: Hotel) => new UpdateHotelSuccess(hotel)),
         catchError((err) => [new UpdateHotelError(err)])
     );
 
@@ -62,7 +79,15 @@ export class HotelEffects {
         ofType(hotelActions.GET_HOTEL),
         map((action: GetHotel) => action.payload),
         switchMap(id => this.svc.findById(id)),
-        map(hotel => new GetHotelSuccess(hotel)),
+        switchMap(() => this.storeService.getAllRooms(),
+        (hotel, rooms) => [hotel, rooms]),
+        // map((hotel: Hotel) => new GetHotelSuccess(hotel)),
+        map(([hotel, rooms]: [Hotel, Room[]])  => {
+            let hotelRooms: Room[] = [];
+            hotelRooms = rooms.filter(room => room.hotelId === hotel.id);
+            hotel.rooms = hotelRooms;
+            return new GetHotelSuccess(hotel);
+        }),
         catchError((err) => [new GetHotelError(err)]),       
     );
       
@@ -72,9 +97,22 @@ export class HotelEffects {
         ofType(hotelActions.DELETE_HOTEL),
         map((action: RemoveHotel) => action.payload),
         switchMap(id => this.svc.delete(id)),
-        map((hero: Hotel) => new RemoveHotelSuccess(hero)),
+        switchMap(() => this.storeService.getAllRooms(),
+        (hotel, rooms) => [hotel, rooms]),
+        concatMap(([hotel, rooms]: [Hotel, Room[]])  => {
+            let hotelRooms: Room[] = [];
+            const deletedRooms: RemoveRoom[] = [];
+
+            hotelRooms = rooms.filter(room => room.hotelId === hotel.id);
+
+            if (hotelRooms) {
+                hotelRooms.forEach(room => {
+                    deletedRooms.push(new RemoveRoom(room.id));
+                });
+            }
+            return [new RemoveHotelSuccess(hotel), ...deletedRooms];
+        }),
         catchError((err) => [new RemoveHotelError(err)])
     );
-    
 
 }

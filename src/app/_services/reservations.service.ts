@@ -30,7 +30,7 @@ export class ReservationsService {
     let headers = new HttpHeaders();
     headers = headers.set('Content-Type', 'application/json; charset=utf-8');
 
-    return this.http.put<Reservation>(this.URL + '/' + reservation.Id, reservation, {headers: headers});
+    return this.http.put<Reservation>(this.URL + '/' + reservation.id, reservation, {headers: headers});
   }
 
   public delete(id): Observable<Reservation> {

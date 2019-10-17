@@ -12,7 +12,7 @@ import {
     RemoveRoom, RemoveRoomSuccess, RemoveRoomError
 } from './rooms.actions';
 
-import { switchMap, map, catchError, tap } from 'rxjs/operators';
+import { switchMap, map, catchError, tap, concatMap } from 'rxjs/operators';
 
 import { Room} from '../../models/room';
 import { Observable } from 'rxjs/internal/Observable';
@@ -41,8 +41,8 @@ export class RoomEffects {
     .pipe(
         ofType(roomActions.CREATE_ROOM),
         map((action: AddRoom) => action.payload),
-        switchMap(newRoom => this.svc.insert(newRoom)),
-        map((newRoom) => new AddRoomSuccess()),
+        concatMap(newRoom => this.svc.insert(newRoom)),
+        map((newRoom: Room) => new AddRoomSuccess(newRoom)),
         catchError((err) => [new AddRoomError(err)])
     );
 
@@ -52,7 +52,7 @@ export class RoomEffects {
         ofType(roomActions.UPDATE_ROOM),
         map((action: UpdateRoom) => action.payload),
         switchMap(room => this.svc.update(room)),
-        map(() => new UpdateRoomSuccess()),
+        map((room: Room) => new UpdateRoomSuccess(room)),
         catchError((err) => [new UpdateRoomError(err)])
     );
 
@@ -72,7 +72,7 @@ export class RoomEffects {
         ofType(roomActions.DELETE_ROOM),
         map((action: RemoveRoom) => action.payload),
         switchMap(id => this.svc.delete(id)),
-        map((hero: Room) => new RemoveRoomSuccess(hero)),
+        map((room: Room) => new RemoveRoomSuccess(room)),
         catchError((err) => [new RemoveRoomError(err)])
     );
     

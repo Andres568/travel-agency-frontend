@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StoreService } from 'src/app/_services/store.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -8,16 +9,15 @@ import { StoreService } from 'src/app/_services/store.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  reservations: any[];
-
-  constructor(private storeService: StoreService) { }
+  
+  constructor( private router: Router) { }
 
 
   ngOnInit() {
-    this.storeService.getAllHotels().subscribe(x => console.log(x));
-    this.storeService.getAllRooms().subscribe(x => console.log(x));
-    this.storeService.getAllTravelers().subscribe(x => console.log(x));
-    this.storeService.getAllReservations().subscribe(x => console.log(x));
+   }
+
+   onBookNow(){
+    this.router.navigate(['/hotels']);
    }
 
 }

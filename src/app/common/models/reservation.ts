@@ -1,11 +1,15 @@
+import { Guest } from './guest';
+
 export class Reservation {
-    Id?: number;
-    RoomId: number;
-    TravelerId: number;
-    DepartureDate: string;
-    ArrivalDate: string;
+    id?: number;
+    roomId: number;
+    username: string;
+    emergencyContactId: number;
+    departureDate: Date;
+    arrivalDate: Date;
+    guests?: Guest[];
 
     constructor(){
-       this.Id = undefined;
+       this.id = undefined;
     }
 }

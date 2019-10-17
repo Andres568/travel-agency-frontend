@@ -1,0 +1,40 @@
+<div class="hotel-container">
+    <mat-grid-list cols="2" rowHeight="1:1" gutterSize="2em" class="hotel-header" *ngIf="hotel">
+        <mat-grid-tile>
+            <img src="{{hotel.imageUrl}}" style="max-width: 100%;  max-height: 100%; min-width: 100%; min-height: 100%; ">
+        </mat-grid-tile> 
+        <mat-grid-tile *ngIf="hotel">
+            <h1>{{hotel.name}}</h1>
+            <h2>City: {{hotel.city}}</h2>
+          </mat-grid-tile>
+      </mat-grid-list>
+  <mat-grid-list cols="1" rowHeight="2:1" gutterSize="2em" style="margin: 2em;" *ngIf="hotel">
+    <mat-grid-tile *ngFor="let room of hotel.rooms">
+      <mat-card class="room-card">
+        <div fxLayout="row" fxFlexFill style="min-height: 100%; min-width: 100%;">
+          <div fxFlex="35">
+            <img src="{{room.imageUrl}}">
+            <h1>{{room.name}}</h1>
+            <h3>{{hotel.name}}</h3>
+          </div>
+          <mat-divider [vertical]="true"></mat-divider>
+          <div fxFlex="40">
+            <h1>Base cost: {{room.baseCost}}</h1>
+            <h2>Tax: {{room.tax}}</h2>
+            <h2>City: {{hotel.city}}</h2>
+            <h2>Address: {{room.address}}</h2>
+          </div>
+          <mat-divider [vertical]="true"></mat-divider>
+          <div fxFlex="25">
+            <h2>Type: {{room.type}}</h2>
+            <h2>People Capacity: {{room.peopleCapacity}}</h2>
+              <button mat-raised-button color="warn" (click)="createReservationDialog(room.id)" 
+                *ngIf="authService.hasRole('User') || authService.hasRole('TravelAgent')">
+                Book Now
+              </button>
+          </div>
+        </div>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>

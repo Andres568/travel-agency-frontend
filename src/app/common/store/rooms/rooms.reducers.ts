@@ -14,7 +14,7 @@ export interface State{
 }
 
 export const initialState: State = {
-    data: null,
+    data: [],
     selected: null,
     action: null,
     done: false,
@@ -31,7 +31,6 @@ export function roomReducer(state = initialState, action: AppAction): State {
         ...state,
         action: roomsActions.GET_ROOMS,
         done: false,
-        selected: null,
         error: null
       };
     case roomsActions.GET_ROOMS_SUCCESS:
@@ -40,14 +39,12 @@ export function roomReducer(state = initialState, action: AppAction): State {
         ...state,
         data: action.payload,
         done: true,
-        selected: null,
         error: null
       };
     case roomsActions.GET_ROOMS_ERROR:
       return {
         ...state,
         done: true,
-        selected: null,
         error: action.payload
       };
 
@@ -90,13 +87,10 @@ export function roomReducer(state = initialState, action: AppAction): State {
       };
       case roomsActions.CREATE_ROOM_SUCCESS:
         {
-          const newRoom = {
-            ...state.selected,
-            // Id: action.payload
-          };
+ 
           const data = [
             ...state.data,
-            newRoom
+            action.payload
           ];
           return {
             ...state,
@@ -120,7 +114,6 @@ export function roomReducer(state = initialState, action: AppAction): State {
       case roomsActions.UPDATE_ROOM:
       return {
         ...state,
-        selected: action.payload,
         action: roomsActions.UPDATE_ROOM,
         done: false,
         error: null
@@ -129,18 +122,17 @@ export function roomReducer(state = initialState, action: AppAction): State {
       {
         const index = state
           .data
-          .findIndex(c => c.Id === state.selected.Id);
+          .findIndex(c => c.id === action.payload.id);
         if (index >= 0) {
           const data = [
             ...state.data.slice(0, index),
-            state.selected,
+            action.payload,
             ...state.data.slice(index + 1)
           ];
           return {
             ...state,
             data,
             done: true,
-            selected: null,
             error: null
           };
         }
@@ -150,7 +142,6 @@ export function roomReducer(state = initialState, action: AppAction): State {
       return {
         ...state,
         done: true,
-        selected: null,
         error: action.payload
       };
 
@@ -159,7 +150,8 @@ export function roomReducer(state = initialState, action: AppAction): State {
      ************************/
     case roomsActions.DELETE_ROOM:
       {
-        const selected = state.data.find(h => h.Id === action.payload);
+        const selected = state.data.find(h => h.id === action.payload);
+        console.log(action.payload)
         return {
           ...state,
           selected,
@@ -170,11 +162,10 @@ export function roomReducer(state = initialState, action: AppAction): State {
       }
     case roomsActions.DELETE_ROOM_SUCCESS:
       {
-        const data = state.data.filter(h => h.Id !== state.selected.Id);
+        const data = state.data.filter(h => h.id !== action.payload.id);
         return {
           ...state,
           data,
-          selected: null,
           error: null,
           done: true
         };
@@ -182,7 +173,6 @@ export function roomReducer(state = initialState, action: AppAction): State {
     case roomsActions.DELETE_ROOM_ERROR:
       return {
         ...state,
-        selected: null,
         done: true,
         error: action.payload
       };

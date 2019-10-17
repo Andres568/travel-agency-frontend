@@ -7,16 +7,16 @@ import { AppAction } from '../app.actions';
 
 export interface State{
     data: Reservation[];
-    selected: Reservation;
     action: string;
+    selected: Reservation;
     done: boolean;
     error?: Error;
 }
 
 export const initialState: State = {
-    data: null,
-    selected: null,
+    data: [],
     action: null,
+    selected: null,
     done: false,
     error: null
   };
@@ -31,23 +31,19 @@ export function reservationReducer(state = initialState, action: AppAction): Sta
         ...state,
         action: reservationsActions.GET_RESERVATIONS,
         done: false,
-        selected: null,
         error: null
       };
     case reservationsActions.GET_RESERVATIONS_SUCCESS:
-      
       return {
         ...state,
         data: action.payload,
         done: true,
-        selected: null,
         error: null
       };
     case reservationsActions.GET_RESERVATIONS_ERROR:
       return {
         ...state,
         done: true,
-        selected: null,
         error: action.payload
       };
 
@@ -78,7 +74,7 @@ export function reservationReducer(state = initialState, action: AppAction): Sta
       };
 
         /*************************
-       * CREATE create actions
+       * CREATE reservation actions
        ************************/
       case reservationsActions.CREATE_RESERVATION:
       return {
@@ -90,18 +86,13 @@ export function reservationReducer(state = initialState, action: AppAction): Sta
       };
       case reservationsActions.CREATE_RESERVATION_SUCCESS:
         {
-          const newReservation = {
-            ...state.selected,
-            // Id: action.payload
-          };
           const data = [
             ...state.data,
-            newReservation
+            action.payload
           ];
           return {
             ...state,
             data,
-            selected: null,
             error: null,
             done: true
           };
@@ -115,12 +106,11 @@ export function reservationReducer(state = initialState, action: AppAction): Sta
         };
         
         /*************************
-       * UPDATE game actions
+       * UPDATE reservation actions
        ************************/
       case reservationsActions.UPDATE_RESERVATION:
       return {
         ...state,
-        selected: action.payload,
         action: reservationsActions.UPDATE_RESERVATION,
         done: false,
         error: null
@@ -129,18 +119,17 @@ export function reservationReducer(state = initialState, action: AppAction): Sta
       {
         const index = state
           .data
-          .findIndex(c => c.Id === state.selected.Id);
+          .findIndex(c => c.id === action.payload.id);
         if (index >= 0) {
           const data = [
             ...state.data.slice(0, index),
-            state.selected,
+            action.payload,
             ...state.data.slice(index + 1)
           ];
           return {
             ...state,
             data,
             done: true,
-            selected: null,
             error: null
           };
         }
@@ -159,7 +148,7 @@ export function reservationReducer(state = initialState, action: AppAction): Sta
      ************************/
     case reservationsActions.DELETE_RESERVATION:
       {
-        const selected = state.data.find(h => h.Id === action.payload);
+        const selected = state.data.find(h => h.id === action.payload);
         return {
           ...state,
           selected,
@@ -170,11 +159,10 @@ export function reservationReducer(state = initialState, action: AppAction): Sta
       }
     case reservationsActions.DELETE_RESERVATION_SUCCESS:
       {
-        const data = state.data.filter(h => h.Id !== state.selected.Id);
+        const data = state.data.filter(h => h.id !== action.payload.id);
         return {
           ...state,
           data,
-          selected: null,
           error: null,
           done: true
         };
@@ -182,7 +170,6 @@ export function reservationReducer(state = initialState, action: AppAction): Sta
     case reservationsActions.DELETE_RESERVATION_ERROR:
       return {
         ...state,
-        selected: null,
         done: true,
         error: action.payload
       };

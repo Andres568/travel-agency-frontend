@@ -1,12 +1,12 @@
 <mat-toolbar>
-    <div>
-        <button mat-icon-button (click)="onToggleOpenSidenav()">
-            <mat-icon>menu</mat-icon>
-        </button>
-    </div>
     <div class="logo-container">
         <div fxLayout="column" fxLayoutAlign="center center">
             <img class="logo" src="assets/images/destinojet_logo.png" alt="">
         </div>
+    </div>
+    <div>
+        <a mat-raised-button *ngIf="!authService.isAuthenticated()"color="primary" routerLink="/sign-in">Sign In</a>
+        <a mat-raised-button *ngIf="!authService.isAuthenticated()"color="warn" routerLink="/sign-up">Sign Up</a>
+        <a mat-raised-button *ngIf="authService.isAuthenticated()"color="primary" routerLink="/sign-up"  (click)="onLogOut()">Sign Out</a>
     </div>
 </mat-toolbar>

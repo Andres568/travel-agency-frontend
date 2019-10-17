@@ -1,5 +1,14 @@
 @import '~@angular/material/theming';
 @import './app/common/components/navtabs/navtabs.component.scss';
+@import './app/pages/hotels/hotel-manager/hotel-manager.component.scss';
+@import './app/pages/hotels/create-hotel/create-hotel.component.scss';
+@import './app/pages/rooms/create-room/create-room.component.scss';
+@import './app/pages/reservations/create-reservation/create-reservation.component.scss';
+@import './app/pages/guests/create-guest/create-guest.component.scss';
+@import './app/pages/reservations/reservation-manager/reservation-manager.component.scss';
+@import './app/pages/hotels/hotel/hotel.component.scss';
+@import './app/common/components/footer/footer.component.scss';
+@import './app/pages/hotels/hotels/hotels.component.scss';
 
 @include mat-core();
 
@@ -103,14 +112,23 @@ $warn: (
 );
 
 
-$travel-agency-primary: mat-palette($primary, 500);
-$travel-agency-accent:  mat-palette($accent, 50);
-$travel-agency-warn:    mat-palette($warn, 500);
+$travel-agency-primary: mat-palette($primary, 500, 200, A200);
+$travel-agency-accent:  mat-palette($accent, 50, 100, 500);
+$travel-agency-warn:    mat-palette($warn, 500, 300, 900);
 
 $travel-agency-theme: mat-light-theme($travel-agency-primary, $travel-agency-accent, $travel-agency-warn);
 
 @include angular-material-theme($travel-agency-theme);
 @include  navtabs-component-theme($travel-agency-theme);
+@include hotel-manager-component-theme($travel-agency-theme);
+@include create-hotel-component-theme($travel-agency-theme);
+@include create-room-component-theme($travel-agency-theme);
+@include  create-reservation-component-theme($travel-agency-theme);
+@include  create-guest-component-theme($travel-agency-theme);
+@include reservation-manager-component-theme($travel-agency-theme);
+@include hotel-component-theme($travel-agency-theme);
+@include footer-component-theme($travel-agency-theme);
+@include hotels-component-theme($travel-agency-theme);
 
 $travel-agency-typography: mat-typography-config(
   $font-family:   'Rubik, sans-serif',
@@ -119,15 +137,15 @@ $travel-agency-typography: mat-typography-config(
   $display-2:     mat-typography-level(45px, 48px, 400, $letter-spacing: -0.005em),
   $display-1:     mat-typography-level(34px, 40px, 400),
   $headline:      mat-typography-level(97.54px, 0px, 400),
-  $title:         mat-typography-level(61px, 0px, 500),
-  $subheading-2:  mat-typography-level(48.77px, 0.25px, 400),
+  $title:         mat-typography-level(61px, 100px, 500),
+  $subheading-2:  mat-typography-level(48.77px, 60px, 400),
   $subheading-1:  mat-typography-level(34.14px, 0.25px, 400),
   $body-2:        mat-typography-level(14px, 0.25px, 500),
   $body-1:        mat-typography-level(16.26px, 0.5px, 400),
   $caption:       mat-typography-level(12px, 20px, 400),
   $button:        mat-typography-level(14px, 1.25px, 500),
   // Line-height must be unit-less fraction of the font-size.
-  $input:         mat-typography-level(inherit, 1.125, 400)
+  $input:         mat-typography-level(large, 1.125, 400)
 );
 
 
